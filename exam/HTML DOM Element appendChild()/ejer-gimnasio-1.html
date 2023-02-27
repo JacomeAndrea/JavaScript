@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elección Gimnasio</title>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gimnasio = [
+                ["abierto24", "Solo mujeres"],
+                ["Clases Colectivas", "Crossfit"],
+                ["Artes Marciales", "Pilates"]
+            ];
+
+            const table = document.createElement('table');
+            table.style.border = '1px solid black';
+            table.style.borderCollapse = 'collapse';
+
+            // Crear una fila para cada elemento del array "gimnasio" (3)
+            for (let i = 0; i < gimnasio.length; i++) {
+                const tr = document.createElement('tr');
+                table.appendChild(tr);
+                tr.style.border = '1px solid black';
+
+                // Crear una columna para cada elemento de la fila "tr" del array "gimnasio"
+                for (let j = 0; j < gimnasio[i].length; j++) {
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.id = gimnasio[i][j];
+                    tr.appendChild(input);
+
+                    //creamos un label para meter el input y el td
+                    const label = document.createElement('label');
+                    label.textContent = gimnasio[i][j];
+                    tr.appendChild(label);
+
+                    const td = document.createElement('td');
+                    td.appendChild(input);
+                    td.appendChild(label);
+                    tr.appendChild(td);
+
+                    td.style.border = '1px solid black';
+
+                }
+            }
+
+            document.body.appendChild(table);
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
