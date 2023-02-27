@@ -1,1 +1,1 @@
-
+<p>Dado el siguiente html y php controla con Ajax de forma que te muestre la red social utilizada una vez pulsado el botón. Debes controlar mediante focus que seleccione el nombre y una vez el usuario presione enter el focus vaya al correo<p>
