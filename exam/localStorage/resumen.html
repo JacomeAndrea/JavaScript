@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen Europa</title>
+    <style type="text/css">
+        body {margin-left:30px; font-family: sans-serif;} div {margin: auto; }
+        .estiloForm { width: 330px; padding:10px; background-color: #f3f3f3; border: solid 2px black;}
+        .estiloForm label {display: block; width: 120px; float: left; text-align:right; margin-bottom: 35px; padding-right: 20px;}
+        br {clear: left;}
+    </style>
+</head>
+<body>
+    <center>
+    <h2>RESUMEN FINAL SOLICITUD</h2>
+    </center>
+    <div class="estiloForm" >
+    <img src="" alt=""><br><br>
+    Identification Number:<input type="text"><br><br>
+    Nacionalidades: <input type="text"><br><br>
+    Ciudad domicilio:<input type="text">
+    </div>
+<script>
+
+    //accedemos a los inputs
+    let identificacion = document.getElementsByTagName("input")[0];
+    let nacionalidades = document.getElementsByTagName("input")[1];
+    let ciudad = document.getElementsByTagName("input")[2];
+
+    let datos = JSON.parse(localStorage.getItem("datos"));
+    //imprimimos en el input la identificación
+    identificacion.value = datos.dni;
+    //recorremos el array de nacionalidades
+    for (let i = 0; i < datos.nacionalidades.length; i++) {
+        //añadimos cada nacionalidad al input
+        nacionalidades.value += datos.nacionalidades[i] + " ";
+    }
+    ciudad.value=datos.ciudad;
+</script>
+</body>
+</html>

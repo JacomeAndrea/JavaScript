@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <style>
+        body {
+            margin-left: 30px;
+            font-family: sans-serif;
+        }
+
+        h4 {
+            margin: 0;
+        }
+
+        div {
+            float: left;
+        }
+
+        .estiloForm, #encuadraImagen, #datos {
+            background-color: #f3f3f3;
+            border: solid 2px black;
+            margin-left: 10px;
+            width: 300px;
+        }
+
+        .estiloForm {
+            width: 330px;
+            padding: 10px;
+        }
+
+        #datos {
+            margin-top: 20px;
+            height: 226px;
+            padding: 10px;
+        }
+
+        #encuadraImagen {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .estiloForm label {
+            display: block;
+            width: 120px;
+            float: left;
+            text-align: right;
+            margin-bottom: 35px;
+            padding-right: 20px;
+        }
+
+        br {
+            clear: left;
+        }
+
+        input[type="submit"], input[type="reset"] {
+            margin: 25px 5px 10px 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>DELEGACIÓN DE PASAPORTES DE EUROPA</h1>
+
+<div class="estiloForm">
+
+    <form>
+        <img src="parlamento.jpg" alt="" style="height: 5cm;width: 8cm;">
+        <h3>Bienvenid@ sr/a:</h3>
+        D.N.I.: <input name="dni" type="text"/><br/><br>
+        <h5>Puede disponer de dos nacionalidades.</h5>
+        <h5>Nacionalidad:</h5><br>
+        <input name="nacionalidad" type="checkbox" value="Española"/>Española<br/>
+        <input name="nacionalidad" type="checkbox" value="Francesa"/>Francesa<br/>
+        <input name="nacionalidad" type="checkbox" value="Alemana"/>Alemana<br/>
+        <input name="nacionalidad" type="checkbox" value="Italiana"/>Italiana<br/>
+        <br>
+        Ciudad de domicilio: <select id="ciudad">
+        <option value="0">Selecciona ciudad</option>
+        <option value="Madrid">Madrid</option>
+        <option value="París">París</option>
+        <option value="Berlín">Berlín</option>
+        <option value="Roma">Roma</option>
+    </select><br>
+        <h4>¿Desea iniciar el proceso de solicitud?</h4><br/>
+        <input type="button" name="boton" value="Aceptar"/>
+        <input type="button" name="boton" value="Cancelar"/>
+    </form>
+</div>
+<script>
+    let error = false;
+
+
+    function nacionalidadesChecked() {
+        const nacionalidades = document.querySelectorAll("input[name='nacionalidad']");
+        const nacionalidadesSeleccionadas = [];
+
+        for (let i = 0; i < nacionalidades.length; i++) {
+            if (nacionalidades[i].checked) {
+                nacionalidadesSeleccionadas.push(nacionalidades[i].value);
+                //controlamos que el usuario pueda introducir hasta dos nacionalidades
+                if (nacionalidadesSeleccionadas.length > 2) {
+                    nacionalidades[i].checked = false;
+                    nacionalidadesSeleccionadas.pop();
+                    error = true;
+                    alert("No puede seleccionar más de dos nacionalidades");
+                    break;
+                }
+            }
+
+        }
+        if (nacionalidadesSeleccionadas.length === 0) {
+            error = true;
+            alert("Debe seleccionar al menos una nacionalidad");
+        }
+        return nacionalidadesSeleccionadas;
+    }
+
+    function ciudadSelected () {
+        const ciudad = document.querySelector("#ciudad");
+        //si no se ha seleccionado ninguna ciudad o se ha seleccionado la primera opción
+        if (ciudad[0].selected) {
+            error = true;
+
+        }
+        //accedemos al valor seleccionado
+        for (let i = 0; i < ciudad.length; i++) {
+            if (ciudad[i].selected) {
+                return ciudad[i].value;
+            }
+        }
+
+    }
+
+
+    function inicio() {
+        //queryselector de dni
+        const dni = document.querySelector("input[name='dni']");
+        const nacionalidades = nacionalidadesChecked();
+        const ciudad = ciudadSelected();
+        let datos = {};
+        if (dni.value === "" || error) {
+            alert("Debe introducir todos los datos");
+        } else {
+            //si no hay datos almacenados
+            if (localStorage.getItem("datos") === null && !error) {
+                //creamos objeto con los datos introducidos
+                datos = {
+                    dni: dni.value,
+                    nacionalidades: nacionalidades,
+                    ciudad: ciudad.value
+                };
+
+            } else {
+                //si ya hay datos almacenados
+                //recuperamos los datos almacenados
+                datos = JSON.parse(localStorage.getItem("datos"));
+                //añadimos los nuevos datos
+                datos.dni = dni.value;
+                datos.nacionalidades = nacionalidades;
+                datos.ciudad = ciudad;
+            }
+            //almacenamos el objeto en el localStorage
+            localStorage.setItem("datos", JSON.stringify(datos));
+            error = false;
+
+        }
+    }
+
+    document.addEventListener("readystatechange", () => {
+        //cuando la página está cargada
+        if (document.readyState === 'complete') {
+            const boton = document.getElementsByName("boton");
+            for (let i = 0; i < boton.length; i++) {
+                boton[i].addEventListener("click", () => {
+                    inicio();
+                    //si existe la variable datos
+                    if (localStorage.getItem("datos") !== null && !error) {
+                        if (boton[i].value === "Aceptar") {
+                            window.location.href = "enespera.html";
+                        } else if (boton[i].value === "Cancelar") {
+                            window.close();
+                        } else {
+                            alert("Debe pulsar Aceptar o Cancelar");
+                        }
+                    }
+
+                });
+            }
+        }
+
+    });
+</script>
+</body>
+</html>
