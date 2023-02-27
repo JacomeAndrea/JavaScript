@@ -1,1 +1,1 @@
-
+<p>Ejercicio 1: Crea una tabla de gimnasios con tres filas y columnas con sus respectivos nombres sin tocar el HTML. Nombres por fila: "abierto24", "Solo mujeres"; "Clases Colectivas", "Crossfit", "Artes Marciales", "Pilates" (cada uno con un checkbox).</p>
